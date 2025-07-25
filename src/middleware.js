@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export function middleware(request: NextRequest) {
+export function middleware(request) {
   console.log("✅ middleware running on", request.nextUrl.pathname);
 
   const token = request.cookies.get("token")?.value;
@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET!);
+    jwt.verify(token, process.env.JWT_SECRET);
     console.log("✅ Token valid");
     return NextResponse.next();
   } catch (error) {
@@ -24,3 +24,4 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/dashboard/:path*"],
 };
+
